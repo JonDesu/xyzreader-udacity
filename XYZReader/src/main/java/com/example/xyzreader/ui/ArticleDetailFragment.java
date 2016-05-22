@@ -7,7 +7,6 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,37 +36,20 @@ public class ArticleDetailFragment extends Fragment implements
     private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
-    private static final float PARALLAX_FACTOR = 1.25f;
 
     private Cursor mCursor;
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-    private ObservableScrollView mScrollView;
-    //    private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
 
     private int mTopInset;
-    private View mPhotoContainerView;
     private ImageView mPhotoView;
-    private Bitmap mPhotoBitmap;
     private int mScrollY;
-    private int mId;
-    private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
     private FloatingActionButton mShareFab;
 
-//    private ArticleDetailFragmentListener mListener;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ArticleDetailFragment() {
-    }
-
-    public interface ArticleDetailFragmentListener {
-        Bitmap getPhotoBitmap();
     }
 
     public static ArticleDetailFragment newInstance(long itemId) {
@@ -85,8 +67,6 @@ public class ArticleDetailFragment extends Fragment implements
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
-
-        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
         mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
                 R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
@@ -100,10 +80,8 @@ public class ArticleDetailFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // In support library r8, calling initLoader for a fragment in a FragmentPagerAdapter in
-        // the fragment's onCreate may cause the same LoaderManager to be dealt to multiple
-        // fragments because their mIndex is -1 (haven't been added to the activity yet). Thus,
-        // we do this in onActivityCreated.
+        // Prepare the loader.  Either re-connect with an existing one,
+        // or start a new one.
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -119,9 +97,8 @@ public class ArticleDetailFragment extends Fragment implements
                 @Override
                 public void onClick(View view) {
                     startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(activity)
-                            // TODO link share intent to displayed pager
                             .setType("text/plain")
-                            .setText("Some sample text")
+                            .setText("Sample Text")
                             .getIntent(), getString(R.string.action_share)));
                 }
             });
@@ -146,7 +123,6 @@ public class ArticleDetailFragment extends Fragment implements
                     (int) (Color.blue(mMutedColor) * 0.9));
         }
         mStatusBarColorDrawable.setColor(color);
-//        mDrawInsetsFrameLayout.setInsetBackground(mStatusBarColorDrawable);
     }
 
     static float progress(float v, float min, float max) {
@@ -180,7 +156,6 @@ public class ArticleDetailFragment extends Fragment implements
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
             titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-            mId = ArticleLoader.Query._ID;
             bylineView.setText(Html.fromHtml(
                     DateUtils.getRelativeTimeSpanString(
                             mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
@@ -233,17 +208,6 @@ public class ArticleDetailFragment extends Fragment implements
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mCursor = null;
         bindViews();
-    }
-
-    public int getUpButtonFloor() {
-        if (mPhotoContainerView == null || mPhotoView.getHeight() == 0) {
-            return Integer.MAX_VALUE;
-        }
-
-        // account for parallax
-        return mIsCard
-                ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
-                : mPhotoView.getHeight() - mScrollY;
     }
 
 }

@@ -61,10 +61,8 @@ public class ArticleListActivity extends AppCompatActivity implements
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
 
+        //R.id.detail_container is flag for two-pane mode
         if (findViewById(R.id.detail_container) != null) {
-            // The detail container view will be present only in the large-screen layouts
-            // (res/layout-sw600dp). If this view is present, then the activity should be
-            // in two-pane mode.
             mTwoPane = true;
         } else {
             mTwoPane = false;
@@ -173,9 +171,6 @@ public class ArticleListActivity extends AppCompatActivity implements
                 public void onClick(View view) {
                     mCurrentID = getItemId(vh.getAdapterPosition());
                     if(mTwoPane) {
-                        // In two-pane mode, show the detail view in this activity by
-                        // adding or replacing the detail fragment using a
-                        // fragment transaction.
                         loadDetailFragment();
                     } else {
                         startDetailActivity();

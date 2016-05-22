@@ -4,15 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-/**
- * Created by Eamon on 17/09/2015.
- */
-public class ThreeTwoFrameLayout extends FrameLayout {
-    public ThreeTwoFrameLayout(Context context, AttributeSet attrs) {
+//replace frame layout width with 3/2 times the height
+public class CustomFrameLayout extends FrameLayout {
+
+    public CustomFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ThreeTwoFrameLayout(Context context) {
+    public CustomFrameLayout(Context context) {
         super(context);
     }
 
