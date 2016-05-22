@@ -41,9 +41,6 @@ public class ArticleDetailActivity extends ActionBarActivity
     private Cursor mCursor;
     private long mStartId;
 
-    private long mSelectedItemId;
-    private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
-    private int mTopInset;
     private android.support.v7.widget.Toolbar mToolbar;
     private android.support.design.widget.CollapsingToolbarLayout mCollapsingToolbar;
 
@@ -53,8 +50,6 @@ public class ArticleDetailActivity extends ActionBarActivity
     private FloatingActionButton mShareFab;
     private int mColorPrimaryDark;
     private int mColorPrimary;
-    private int mAccentColor;
-    private int mPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +85,6 @@ public class ArticleDetailActivity extends ActionBarActivity
                 if (mCursor != null) {
                     mCursor.moveToPosition(position);
                 }
-                mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
                 loadPhoto(mCursor.getString(ArticleLoader.Query.PHOTO_URL));
             }
         });
@@ -122,7 +116,6 @@ public class ArticleDetailActivity extends ActionBarActivity
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
-                mSelectedItemId = mStartId;
             }
         }
     }
@@ -211,9 +204,6 @@ public class ArticleDetailActivity extends ActionBarActivity
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
             ArticleDetailFragment fragment = (ArticleDetailFragment) object;
-            if (fragment != null) {
-                mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
-            }
         }
 
         @Override

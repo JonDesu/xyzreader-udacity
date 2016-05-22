@@ -246,10 +246,4 @@ public class ArticleDetailFragment extends Fragment implements
                 : mPhotoView.getHeight() - mScrollY;
     }
 
-    public Bitmap getPhotoBitmap() {
-        return mPhotoBitmap;
-    }
-    public int getCursorId() {
-        return mId;
-    }
 }
