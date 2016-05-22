@@ -173,7 +173,6 @@ public class ArticleDetailActivity extends ActionBarActivity
         if (mStartId > 0) {
             mCursor.moveToFirst();
 
-            // TODO: optimize
             while (!mCursor.isAfterLast()) {
                 if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
                     loadPhoto(mCursor.getString(ArticleLoader.Query.PHOTO_URL));

@@ -20,11 +20,11 @@
     <style name="Theme.Bacon" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">@color/light_blue_500</item>
+        <item name="colorPrimary">@color/primary_grey</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">@color/light_blue_700</item>
+        <item name="colorPrimaryDark">@color/dark_grey</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">@color/orange_a400</item>
+        <item name="colorAccent">@color/red</item>
     </style>
 
     <style name="Theme.Bacon.Detail">
